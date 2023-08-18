@@ -1,23 +1,20 @@
 "use strict";
-console.log("Start script");
-
 // создает объект класса UserForm
 const userFormObject = new UserForm();
 
 /** 
  * Вход 
  */
-userFormObject.loginFormCallback = (data) => {
-  ApiConnector.login(data, response => {
-    // выводит в консоль ответ от сервера
-    console.log(response);
-
+userFormObject.loginFormCallback = function(data) {
+  ApiConnector.login(data, (response) => {
+    console.log(response); // проверяет какой объект возвращает сервер
     // проверяет успешность запроса
     if(response.success === true) {
       location.reload();
+      
     } else {
-      console.log(response.error);
-      return alert(response.error);
+      userFormObject.setLoginErrorMessage(response.error);
+
     };
 
   });
@@ -27,17 +24,15 @@ userFormObject.loginFormCallback = (data) => {
 /** 
  * Регистрация
  */
-userFormObject.registerFormCallback = (data) => {
-  ApiConnector.register(data, response => {
-    // выводит в консоль ответ от сервера
-    console.log(response);
-
+userFormObject.registerFormCallback = function(data) {
+  ApiConnector.register(data, (response) => {
     // проверяет повторную регистрацию
     if(response.success === false) {
-      console.log(response.error);
-      return alert(response.error);
+      userFormObject.setRegisterErrorMessage(response.error);
+
     } else {
       location.reload();
+
     };
 
   });
